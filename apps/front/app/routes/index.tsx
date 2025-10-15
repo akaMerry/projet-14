@@ -1,11 +1,12 @@
 import { states } from "~/data/states";
 import { departments } from "~/data/departments";
-import { SelectMenu } from "~/components/select-menu";
-import { Input } from "~/components/input";
-import { Label } from "~/components/label";
+import SelectMenu from "~/components/select-menu";
+import Input from "~/components/input";
+import Label from "~/components/label";
+import Button from "~/components/button";
+import DateTimePicker from "~/components/date-picker";
 import { useState } from "react";
 import { Link } from "react-router";
-import DateTimePicker from "~/components/date-picker";
 import { useSetEmployees, type Employee } from "~/components/context";
 
 export default function Index() {
@@ -29,17 +30,17 @@ export default function Index() {
 
   return (
     <>
-      <h1 className="flex items-center justify-center text-3xl font-bold">
+      <h1 className="flex items-center justify-center text-3xl font-bold mb-1">
         HRnet
       </h1>
       <div className="flex flex-col items-center justify-center">
         <Link
-          className="m-4 cursor-pointer text-purple-800 underline font-normal"
+          className="mt-2 mb-6 cursor-pointer text-sm text-sky-900 uppercase font-semibold hover:transition hover:scale-102"
           to="/employees-list"
         >
           View Current Employees
         </Link>
-        <h2 className="text-2xl font-bold mb-2">Create Employee</h2>
+        <h2 className="text-2xl font-bold mb-1">Create Employee</h2>
 
         <form
           onSubmit={(e) =>
@@ -59,8 +60,8 @@ export default function Index() {
           <Label label="startDate" value="Start Date" />
           <DateTimePicker name="startDate" />
 
-          <fieldset className="mt-2.5 p-4 w-72 border border-neutral-400">
-            <legend>Address</legend>
+          <fieldset className="mt-4 p-4 w-72 border border-neutral-400">
+            <legend className="font-medium">Address</legend>
 
             <Label label="street" value="Street" />
             <Input name="street" type="text" />
@@ -75,18 +76,11 @@ export default function Index() {
             <Input name="zipCode" type="number" />
           </fieldset>
 
-          <label htmlFor="department" className="block mt-3.5 mb-2">
-            Department
-          </label>
+          <Label label="department" value="Department" />
           <SelectMenu data={departments} name="department" id="department" />
 
-          <div className="flex w-full justify-center content-center">
-            <button
-              className="flex mt-4 w-fit p-1 font-roboto text-sm font-normal bg-neutral-100 border border-neutral-400 rounded-sm cursor-pointer"
-              type="submit"
-            >
-              Save
-            </button>
+          <div className="flex w-full mt-5 justify-center content-center">
+            <Button name="save" />
           </div>
         </form>
       </div>

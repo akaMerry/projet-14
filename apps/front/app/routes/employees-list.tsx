@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { EmployeesTable } from "~/components/table";
+import EmployeesTable from "~/components/table";
 
 export default function EmployeesList() {
   return (
@@ -9,7 +9,10 @@ export default function EmployeesList() {
       </h1>
       <EmployeesTable />
       <div className="flex w-full justify-center">
-        <Link to="/" className="text-purple-800 underline">
+        <Link
+          className="mt-2 mb-5 text-sm cursor-pointer text-sky-900 uppercase font-semibold hover:transition hover:scale-102"
+          to="/"
+        >
           Home
         </Link>
       </div>

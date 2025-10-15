@@ -1,5 +1,5 @@
-import { Input } from "~/components/input";
-import { SelectMenu } from "~/components/select-menu";
+import Input from "~/components/input";
+import SelectMenu from "~/components/select-menu";
 import React, { useEffect, useState } from "react";
 import { useEmployees } from "./context";
 import { type Employee } from "~/components/context";
@@ -11,8 +11,9 @@ import {
   type ColumnDef,
   getSortedRowModel,
 } from "@tanstack/react-table";
+import Button from "./button";
 
-export function EmployeesTable() {
+export default function EmployeesTable() {
   const allEmployees = useEmployees();
 
   const [employees, setEmployees] = useState(allEmployees);
@@ -130,13 +131,13 @@ export function EmployeesTable() {
 
   const [data, setData] = React.useState<Employee[]>(employees);
 
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  );
-
   useEffect(() => {
     setData(employees);
   }, [employees]);
+
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    []
+  );
 
   const table = useReactTable({
     data,
@@ -155,7 +156,7 @@ export function EmployeesTable() {
 
   return (
     <>
-      <div className="flex justify-between items-center mt-10 mb-5">
+      <div className="flex justify-between items-center mt-10 mb-6">
         <div className="flex items-center">
           <p className="mr-1">Show</p>
           <SelectMenu
@@ -178,7 +179,12 @@ export function EmployeesTable() {
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
-                  <th key={header.id} colSpan={header.colSpan} className="p-2">
+                  <th
+                    key={header.id}
+                    colSpan={header.colSpan}
+                    className="pt-3 pb-3 pl-5 pr-5 text-sm text-white uppercase bg-sky-800 border border-white tracking-wider border-x-2 rounded-t-2xl hover:transition hover:scale-102 hover:bg-sky-700"
+                    tabIndex={0}
+                  >
                     <>
                       <div
                         {...{
@@ -205,15 +211,34 @@ export function EmployeesTable() {
           ))}
         </thead>
         {employees.length < 1 ? (
-          <tbody>no matching data</tbody>
+          <tbody>
+            <tr>
+              <td
+                className="p-5 align-center text-center border-b-2 border-b-neutral-400"
+                colSpan={9}
+              >
+                no data
+              </td>
+            </tr>
+          </tbody>
         ) : (
           <tbody>
-            {table.getRowModel().rows.map((row) => {
+            {table.getRowModel().rows.map((row, index) => {
               return (
-                <tr key={row.id}>
+                <tr
+                  key={row.id}
+                  className={
+                    index % 2 === 0
+                      ? "bg-white hover:bg-sky-50"
+                      : "bg-gray-100 hover:bg-sky-50"
+                  }
+                >
                   {row.getVisibleCells().map((cell) => {
                     return (
-                      <td key={cell.id} className="p-2">
+                      <td
+                        key={cell.id}
+                        className="p-3 border-b-2 border-x-1 border-x-neutral-200 border-b-neutral-400"
+                      >
                         {flexRender(
                           cell.column.columnDef.cell,
                           cell.getContext()
@@ -227,7 +252,7 @@ export function EmployeesTable() {
           </tbody>
         )}
       </table>
-      <div className="mt-1 flex justify-between items-center">
+      <div className="mt-10 mb-5 flex justify-between items-center">
         <div>
           <p>
             Showing {employees.length > 1 ? startIndex + 1 : 0} to{" "}
@@ -235,20 +260,10 @@ export function EmployeesTable() {
             {employees.length > 1 ? "entries" : "entry"}
           </p>
         </div>
-        <div className="flex flex-row">
-          <button
-            className="p-1 m-1 cursor-pointer rounded border border-neutral-400 bg-neutral-50"
-            onClick={previous}
-          >
-            Previous
-          </button>
+        <div className="flex flex-row items-center">
+          <Button name="Previous" onClick={previous} />
           <p className="p-1 m-1 text-neutral-600">{currentPage}</p>
-          <button
-            className="p-1 m-1 cursor-pointer rounded border border-neutral-400 bg-neutral-50"
-            onClick={next}
-          >
-            Next
-          </button>
+          <Button name="Next" onClick={next} />
         </div>
       </div>
     </>

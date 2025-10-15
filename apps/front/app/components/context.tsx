@@ -28,6 +28,7 @@ export function EmployeesProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
+  // à chaque modification du tableau employees il est poussé en local storage
   useEffect(() => {
     localStorage.setItem("employees", JSON.stringify(employees));
   }, [employees]);
@@ -41,6 +42,7 @@ export function EmployeesProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
+// hooks custom
 export function useEmployees() {
   return useContext(EmployeesContext);
 }

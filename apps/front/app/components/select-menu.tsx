@@ -1,4 +1,4 @@
-export function SelectMenu({
+export default function SelectMenu({
   data,
   name,
   id,
