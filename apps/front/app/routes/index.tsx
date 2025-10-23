@@ -7,10 +7,10 @@ import Button from "~/components/button";
 import DateTimePicker from "~/components/date-picker";
 import { useState } from "react";
 import { Link } from "react-router";
-import { useSetEmployees, type Employee } from "~/components/context";
+import { useEmployees, type Employee } from "~/components/context";
 
 export default function Index() {
-  const setEmployees = useSetEmployees();
+  const { setEmployees } = useEmployees();
   const [ShowConfirmationModal, setShowConfirmationModal] = useState(false);
 
   function saveEmployee(
@@ -70,14 +70,14 @@ export default function Index() {
             <Input name="city" type="text" />
 
             <Label label="state" value="State" />
-            <SelectMenu data={states} name="state" id="state" />
+            <SelectMenu options={states} name="state" />
 
             <Label label="zipCode" value="Zip Code" />
             <Input name="zipCode" type="number" />
           </fieldset>
 
           <Label label="department" value="Department" />
-          <SelectMenu data={departments} name="department" id="department" />
+          <SelectMenu options={departments} name="department" />
 
           <div className="flex w-full mt-5 justify-center content-center">
             <Button name="save" />

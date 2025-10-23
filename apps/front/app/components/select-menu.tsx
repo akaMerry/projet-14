@@ -1,30 +1,35 @@
+import { useEffect } from "react";
+
 export default function SelectMenu({
-  data,
+  options,
   name,
-  id,
   onChange,
 }: {
-  data: { name: string; value: string | number }[];
+  options: { label: string; value: string | number }[];
   name: string;
-  id: string;
   onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }) {
+  // ??
+  useEffect(() => {
+    $(`#${name}`).selectmenu();
+  }, []);
+
   return (
     <select
       className="bg-neutral-100 border border-neutral-400 rounded-sm font-roboto text-sm text-neutral-700 p-1"
-      defaultValue={data[0].value}
+      defaultValue={options[0].value}
       name={name}
-      id={id}
+      id={name}
       required
       onChange={onChange}
     >
-      {data.map((d, index) => (
+      {options.map((d, index) => (
         <option
           key={index}
           className="text-neutral-800 font-roboto"
           value={d.value}
         >
-          {d.name}
+          {d.label}
         </option>
       ))}
     </select>

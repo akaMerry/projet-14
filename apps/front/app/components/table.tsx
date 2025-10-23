@@ -1,8 +1,6 @@
 import Input from "~/components/input";
 import SelectMenu from "~/components/select-menu";
-import React, { useEffect, useState } from "react";
-import { useEmployees } from "./context";
-import { type Employee } from "~/components/context";
+import React, { useState } from "react";
 import {
   useReactTable,
   flexRender,
@@ -12,11 +10,14 @@ import {
   getSortedRowModel,
 } from "@tanstack/react-table";
 import Button from "./button";
+type Column<D> = ColumnDef<D> & { accessorKey: keyof D };
+type TableProps<D = { [key: string]: any }> = {
+  columns: Column<D>[];
+  data: D[];
+};
 
-export default function EmployeesTable() {
-  const allEmployees = useEmployees();
-
-  const [employees, setEmployees] = useState(allEmployees);
+export default function Table<D>(props: TableProps<D>) {
+  const [data, setData] = React.useState<D[]>(props.data);
 
   const [sliceValue, setSliceValue] = useState(10);
 
@@ -27,25 +28,24 @@ export default function EmployeesTable() {
   const endIndex = startIndex + sliceValue;
 
   const entries = [
-    { name: "10", value: 10 },
-    { name: "25", value: 25 },
-    { name: "50", value: 50 },
-    { name: "100", value: 100 },
+    { label: "10", value: 10 },
+    { label: "25", value: 25 },
+    { label: "50", value: 50 },
+    { label: "100", value: 100 },
   ];
 
-  function search(e: React.ChangeEvent<HTMLInputElement>) {
-    const searchValue = e.target.value.toLowerCase();
+  function search(e: string) {
+    const searchValue = e.toLowerCase();
 
     if (searchValue.length === 0) {
-      setEmployees(allEmployees);
+      setData(props.data);
     } else {
-      const filtered = allEmployees.filter((employee: Employee) =>
-        Object.values(employee).some((value) =>
-          value.toString().toLowerCase().includes(searchValue)
+      const filtered = props.data.filter((d: any) =>
+        Object.values(d).some((value) =>
+          (value as string).toString().toLowerCase().includes(searchValue)
         )
       );
-      setEmployees(filtered);
-      console.log(employees.length);
+      setData(filtered);
     }
   }
 
@@ -62,78 +62,18 @@ export default function EmployeesTable() {
   }
 
   function next() {
-    const totalPages = Math.ceil(employees.length / sliceValue);
+    const totalPages = Math.ceil(data.length / sliceValue);
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
     }
   }
 
   // table
-  const columns = React.useMemo<ColumnDef<Employee, any>[]>(
-    () => [
-      {
-        id: "firstName",
-        accessorKey: "firstName",
-        header: () => "First Name",
-        cell: (info) => info.getValue(),
-      },
-      {
-        id: "lastName",
-        accessorKey: "lastName",
-        header: () => "Last Name",
-        cell: (info) => info.getValue(),
-      },
-      {
-        id: "dateOfBirth",
-        accessorKey: "dateOfBirth",
-        header: () => "Date of Birth",
-        cell: (info) => info.getValue(),
-      },
-      {
-        id: "startDate",
-        accessorKey: "startDate",
-        header: () => "Start Date",
-        cell: (info) => info.getValue(),
-      },
-      {
-        id: "department",
-        accessorKey: "department",
-        header: () => "Department",
-        cell: (info) => info.getValue(),
-      },
-      {
-        id: "street",
-        accessorKey: "street",
-        header: () => "Street",
-        cell: (info) => info.getValue(),
-      },
-      {
-        id: "city",
-        accessorKey: "city",
-        header: () => "City",
-        cell: (info) => info.getValue(),
-      },
-      {
-        id: "state",
-        accessorKey: "state",
-        header: () => "State",
-        cell: (info) => info.getValue(),
-      },
-      {
-        id: "zipCode",
-        accessorKey: "zipCode",
-        header: () => "Zip Code",
-        cell: (info) => info.getValue(),
-      },
-    ],
+  const columns = React.useMemo<ColumnDef<any>[]>(
+    () =>
+      props.columns.map((col) => ({ ...col, cell: (info) => info.getValue() })),
     []
   );
-
-  const [data, setData] = React.useState<Employee[]>(employees);
-
-  useEffect(() => {
-    setData(employees);
-  }, [employees]);
 
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -159,12 +99,7 @@ export default function EmployeesTable() {
       <div className="flex justify-between items-center mt-10 mb-6">
         <div className="flex items-center">
           <p className="mr-1">Show</p>
-          <SelectMenu
-            data={entries}
-            name="entries"
-            id="entries"
-            onChange={display}
-          />
+          <SelectMenu options={entries} name="entries" onChange={display} />
           <p className="ml-1">entries</p>
         </div>
         <div className="flex items-center">
@@ -210,7 +145,7 @@ export default function EmployeesTable() {
             </tr>
           ))}
         </thead>
-        {employees.length < 1 ? (
+        {data.length < 1 ? (
           <tbody>
             <tr>
               <td
@@ -255,9 +190,9 @@ export default function EmployeesTable() {
       <div className="mt-10 mb-5 flex justify-between items-center">
         <div>
           <p>
-            Showing {employees.length > 1 ? startIndex + 1 : 0} to{" "}
-            {Math.min(endIndex, employees.length)} of {employees.length}{" "}
-            {employees.length > 1 ? "entries" : "entry"}
+            Showing {data.length > 1 ? startIndex + 1 : 0} to{" "}
+            {Math.min(endIndex, data.length)} of {data.length}{" "}
+            {data.length > 1 ? "entries" : "entry"}
           </p>
         </div>
         <div className="flex flex-row items-center">
