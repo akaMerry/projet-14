@@ -23,7 +23,7 @@ export default function Index() {
 
     console.log(employee);
 
-    setEmployees((current) => [...current, employee]);
+    setEmployees((current) => [...(current || []), employee]);
 
     setShowConfirmationModal(true);
   }
