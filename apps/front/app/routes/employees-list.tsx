@@ -13,7 +13,7 @@ import {
   getSortedRowModel,
 } from "@tanstack/react-table";
 import Button from "~/components/button";
-import Table from "~/components/table";
+import { Table } from "@aliasmerry/table";
 type Column<D> = ColumnDef<D> & { accessorKey: keyof D };
 type TableProps<D = { [key: string]: any }> = {
   columns: Column<D>[];
