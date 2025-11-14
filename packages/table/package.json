@@ -1,7 +1,7 @@
 {
   "name": "@aliasmerry/table",
-  "version": "14.11.2025",
-  "description": "",
+  "version": "14.11.2025.1",
+  "description": "Another cool data table",
   "main": "./src/index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

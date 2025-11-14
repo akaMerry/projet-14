@@ -23,7 +23,7 @@ npm i @aliasmerry/table
 
 2. Install [TalwindCSS](https://tailwindcss.com/)
 
-Add component source to your css file
+3. Add component source to your css file
 
 ```css
 @source '../node_modules/@aliasmerry/table/**/*.tsx';
@@ -31,7 +31,7 @@ Add component source to your css file
 
 You may need to adapt node_modules path from previous code depending on your project structure
 
-3. Import component
+4. Import component
 
 ```js
 import { Table } from "@aliasmerry/table";
@@ -68,7 +68,9 @@ type TableProps<D = { [key: string]: any }> = {
 Allowing you to use That cool table with an array of objects :
 
 ```js
-const coolData = [{name : "Granit fountains", rating: "8", notes: "utterly cool"}, {name : "kaleidoscopes", rating: "6", notes: "very cool"}, {name : "LED sneakers", rating: "10", notes: "nothing can be cooler than this"},]
+const coolData = [{name : "Granit fountains", rating: "8", notes: "utterly cool"},
+{name : "kaleidoscopes", rating: "6", notes: "very cool"},
+{name : "LED sneakers", rating: "10", notes: "nothing can be cooler than this"}]
 
 <Table
   data={coolData}
