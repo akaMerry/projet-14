@@ -1,17 +1,9 @@
 import { Link } from "react-router";
-// import Table from "~/components/table";
 import { useEmployees } from "~/components/context";
 import Input from "~/components/input";
 import SelectMenu from "~/components/select-menu";
 import React, { useState } from "react";
-import {
-  useReactTable,
-  flexRender,
-  getCoreRowModel,
-  type ColumnFiltersState,
-  type ColumnDef,
-  getSortedRowModel,
-} from "@tanstack/react-table";
+import { type ColumnDef } from "@tanstack/react-table";
 import Button from "~/components/button";
 import { Table } from "@aliasmerry/table";
 type Column<D> = ColumnDef<D> & { accessorKey: keyof D };

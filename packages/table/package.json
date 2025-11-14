@@ -1,6 +1,6 @@
 {
   "name": "@aliasmerry/table",
-  "version": "23.10.2025",
+  "version": "14.11.2025",
   "description": "",
   "main": "./src/index.ts",
   "scripts": {
